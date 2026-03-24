@@ -1,0 +1,650 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESIGN TOKENS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+:root {
+  --tar:       #080604;
+  --pitch:     #100d08;
+  --soot:      #1a1510;
+  --leather:   #2e1f0d;
+  --saddle:    #5c3518;
+  --rust:      #8c3d18;
+  --brick:     #a84820;
+  --ember:     #cc5c20;
+  --blaze:     #e07020;
+  --honey:     #d4922a;
+  --straw:     #c8a040;
+  --parchment: #e8d4a0;
+  --bone:      #f0e4c0;
+  --neon-r:    #ff5510;
+  --neon-glow: rgba(255,85,16,0.55);
+
+  --ff-display: 'Tilt Neon', cursive;   /* section h2, tour dates, record titles, contact */
+  --ff-heading: 'Bebas Neue', sans-serif; /* nav links, badges, tour venues, stream buttons */
+  --ff-body:    'Libre Baskerville', Georgia, serif;
+  --ff-type:    'Special Elite', monospace; /* eyebrows, kickers, metadata */
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--tar);
+  color: var(--parchment);
+  font-family: var(--ff-body);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── Grain + vignette overlay ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 9998;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 40%, rgba(8,6,4,0.55) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.055'/%3E%3C/svg%3E");
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STICKY NAV
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5vw;
+  height: 62px;
+  transition: background 0.4s, border-color 0.4s;
+  background: linear-gradient(to bottom, rgba(8,6,4,0.9) 0%, transparent);
+}
+#nav.solid {
+  background: rgba(10,8,5,0.97);
+  border-bottom: 1px solid rgba(140,61,24,0.4);
+}
+
+/* Nav wordmark — Bebas Neue, matching nav links, no glow */
+.nav-wordmark {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  color: var(--honey);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.nav-links {
+  display: flex; gap: 2.4rem; list-style: none;
+}
+.nav-links a {
+  font-family: var(--ff-heading);
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  color: rgba(232,212,160,0.6);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--neon-r); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HERO SLIDESHOW — 75vh
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#hero {
+  position: relative;
+  width: 100%; height: 75vh; min-height: 435px;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center 30%;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+  will-change: opacity;
+}
+.slide.active { opacity: 1; }
+
+.slide::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom,
+      rgba(8,6,4,0.5)  0%,
+      rgba(8,6,4,0.1)  30%,
+      rgba(8,6,4,0.15) 55%,
+      rgba(8,6,4,0.75) 78%,
+      rgba(8,6,4,1.0)  100%
+    ),
+    linear-gradient(to right,
+      rgba(8,6,4,0.4) 0%,
+      transparent 30%,
+      transparent 70%,
+      rgba(8,6,4,0.4) 100%
+    );
+}
+
+.slide-1 { background-image: url('images/hero1.jpg'); background-position: center top; }
+.slide-2 { background-image: url('images/hero2.jpg'); background-position: center 40%; }
+.slide-3 { background-image: url('images/hero3.jpg'); }
+
+@keyframes kenburns {
+  from { transform: scale(1.0) translateX(0); }
+  to   { transform: scale(1.07) translateX(-1%); }
+}
+.slide.active { animation: kenburns 2s ease-in-out forwards; }
+
+/* ── Hero text ── */
+#hero-text {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 10;
+  padding: 0 7vw 7vh;
+}
+
+.hero-kicker {
+  font-family: var(--ff-type);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #f47430;
+  margin-bottom: 0.6rem;
+  opacity: 0;
+  animation: fadeUp 1s 0.3s forwards;
+}
+
+/* "Daniel Miller" — Sancreek, no neon glow */
+.hero-name {
+  font-family: 'Sancreek', cursive;
+  font-size: clamp(2.8rem, 7.5vw, 7.2rem);
+  line-height: 1.05;
+  color: var(--bone);
+  text-shadow: 2px 4px 12px rgba(8,6,4,0.8);
+  margin-bottom: 0.15rem;
+  opacity: 0;
+  animation: fadeUp 1s 0.5s forwards;
+}
+
+/* "& The High Life" — Neonderthaw, reduced amber glow */
+.hero-band {
+  font-family: 'Neonderthaw', cursive;
+  font-size: clamp(1.3rem, 3.2vw, 2.8rem);
+  color: var(--honey);
+  text-shadow:
+    0 0 4px  rgba(255,220,100,0.5),
+    0 0 10px rgba(212,146,42,0.35),
+    0 0 22px rgba(212,146,42,0.15);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 1s 0.7s forwards;
+}
+
+.hero-actions {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 1s 1s forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Slide indicator bars ── */
+#hero-dots {
+  position: absolute;
+  right: 5vw; bottom: 3rem;
+  z-index: 11;
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.hdot {
+  width: 2px; height: 22px;
+  background: rgba(232,212,160,0.25);
+  cursor: pointer;
+  transition: background 0.3s, height 0.3s;
+}
+.hdot.active {
+  background: var(--neon-r);
+  height: 36px;
+  box-shadow: 0 0 8px var(--neon-glow);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BUTTONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.btn {
+  display: inline-block;
+  font-family: var(--ff-heading);
+  font-size: 0.82rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.72em 2em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.22s;
+  border: none;
+}
+.btn-fire {
+  background: var(--neon-r);
+  color: var(--tar);
+  box-shadow: 0 0 24px var(--neon-glow), inset 0 1px 0 rgba(255,200,150,0.3);
+}
+.btn-fire:hover {
+  background: var(--blaze);
+  box-shadow: 0 0 40px var(--neon-glow);
+  transform: translateY(-2px);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--parchment);
+  border: 1px solid rgba(232,212,160,0.35);
+}
+.btn-ghost:hover {
+  border-color: var(--honey);
+  color: var(--honey);
+  transform: translateY(-2px);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   NEWS BAND
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#news-band {
+  background: var(--rust);
+  border-top: 2px solid var(--brick);
+  border-bottom: 2px solid var(--leather);
+  position: relative; z-index: 5;
+}
+.news-inner { display: flex; align-items: stretch; }
+.news-tag {
+  flex-shrink: 0;
+  background: var(--tar);
+  font-family: var(--ff-heading);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--neon-r);
+  padding: 1.1rem 1.4rem;
+  border-right: 2px solid var(--brick);
+  display: flex; align-items: center;
+  text-shadow: 0 0 10px var(--neon-glow);
+}
+.news-copy {
+  font-family: var(--ff-type);
+  font-size: 0.88rem;
+  color: var(--bone);
+  padding: 1rem 1.8rem;
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0.3em;
+  line-height: 1.5;
+}
+.news-copy a {
+  color: var(--straw);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(200,160,64,0.5);
+  transition: color 0.2s, border-color 0.2s;
+}
+.news-copy a:hover { color: var(--bone); border-color: var(--bone); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SECTION SCAFFOLDING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.section-wrap {
+  padding: 6rem 7vw;
+  position: relative;
+}
+
+.section-eyebrow {
+  font-family: var(--ff-type);
+  font-size: 0.65rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--ember);
+  margin-bottom: 0.6rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.section-eyebrow::after {
+  content: '';
+  flex: 0 0 40px; height: 1px;
+  background: var(--ember);
+  opacity: 0.5;
+}
+
+/* Section h2 — Sancreek (matches hero name) */
+h2.sh {
+  font-family: 'Sancreek', cursive;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  color: var(--bone);
+  line-height: 1.15;
+  margin-bottom: 0.3rem;
+}
+
+.divider-rope {
+  display: flex; align-items: center; gap: 1rem;
+  overflow: hidden;
+}
+.divider-rope::before,
+.divider-rope::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(140,61,24,0.6) 0px, rgba(140,61,24,0.6) 6px,
+    transparent 6px, transparent 10px
+  );
+}
+.divider-rope span {
+  font-family: var(--ff-display);
+  font-size: 0.75rem;
+  color: var(--saddle);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ABOUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#about {
+  background: var(--pitch);
+  background-image:
+    repeating-linear-gradient(175deg, transparent 0px, transparent 40px, rgba(46,31,13,0.12) 40px, rgba(46,31,13,0.12) 41px),
+    repeating-linear-gradient(90deg,  transparent 0px, transparent 120px, rgba(16,13,8,0.08) 120px, rgba(16,13,8,0.08) 121px);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 5vw;
+  align-items: center;
+  margin-top: 2.5rem;
+}
+
+.about-photo-wrap { position: relative; }
+.about-photo-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -10px -10px -20px -10px;
+  background: var(--soot);
+  box-shadow: inset 0 0 0 1px rgba(92,53,24,0.3), 4px 8px 30px rgba(0,0,0,0.6);
+  z-index: -1;
+}
+.about-photo-wrap img {
+  width: 100%; display: block;
+  filter: sepia(20%) contrast(1.08) brightness(0.95);
+}
+.about-photo-wrap::after {
+  content: '';
+  position: absolute; inset: 0;
+  box-shadow: inset 0 0 60px rgba(8,6,4,0.5);
+  pointer-events: none;
+}
+
+.about-body { padding-left: 1rem; }
+.about-body p {
+  font-size: 1.02rem;
+  color: rgba(232,212,160,0.8);
+  margin-bottom: 1.3rem;
+}
+.about-body em { color: var(--honey); font-style: italic; }
+.about-body strong { color: var(--straw); font-weight: 700; }
+
+.opener-quote {
+  font-family: var(--ff-body);
+  font-style: italic;
+  font-size: 1.18rem;
+  color: var(--parchment);
+  border-left: 3px solid var(--rust);
+  padding-left: 1.2rem;
+  margin-bottom: 1.6rem;
+  line-height: 1.6;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MUSIC
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#music { background: var(--tar); }
+
+.records-shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1.6rem;
+  margin-top: 2.5rem;
+}
+
+.record {
+  position: relative;
+  background: var(--soot);
+  border: 1px solid rgba(92,53,24,0.2);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.28s, box-shadow 0.28s;
+}
+.record:hover {
+  transform: translateY(-6px) rotate(-0.4deg);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.7), 0 0 0 1px var(--rust);
+}
+.record img {
+  width: 100%; display: block;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  filter: sepia(12%) contrast(1.05);
+  transition: filter 0.3s;
+}
+.record:hover img { filter: sepia(0%) contrast(1.1) brightness(1.05); }
+.record::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--rust), var(--ember), var(--rust));
+  z-index: 2; opacity: 0; transition: opacity 0.3s;
+}
+.record:hover::before { opacity: 1; }
+
+.record-info { padding: 1rem 1.2rem 1.4rem; }
+.record-year {
+  font-family: var(--ff-type);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--ember);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+/* Record titles — Tilt Neon */
+.record-title {
+  font-family: var(--ff-display);
+  font-size: 1.15rem;
+  color: var(--bone);
+  margin-bottom: 0.8rem;
+  text-shadow: 0 0 10px rgba(255,85,16,0.2);
+}
+.stream-btns { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.stream-btns a {
+  font-family: var(--ff-heading);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: rgba(232,212,160,0.55);
+  text-decoration: none;
+  border: 1px solid rgba(92,53,24,0.4);
+  padding: 0.3em 0.8em;
+  transition: all 0.2s;
+}
+.stream-btns a:hover {
+  color: var(--neon-r);
+  border-color: var(--neon-r);
+  box-shadow: 0 0 8px var(--neon-glow);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TOUR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#tour {
+  background: var(--leather);
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(8,6,4,0.15) 2px, rgba(8,6,4,0.15) 3px);
+  position: relative;
+}
+#tour::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(204,92,32,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.marquee-list {
+  margin-top: 2.5rem;
+  border: 1px solid rgba(92,53,24,0.35);
+  background: rgba(8,6,4,0.5);
+}
+.marquee-row {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  align-items: stretch;
+  border-bottom: 1px solid rgba(92,53,24,0.2);
+  transition: background 0.2s;
+}
+.marquee-row:last-child { border-bottom: none; }
+.marquee-row:hover { background: rgba(46,31,13,0.6); }
+
+.mq-date {
+  background: rgba(8,6,4,0.5);
+  border-right: 1px solid rgba(92,53,24,0.3);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 1.2rem 0.5rem; text-align: center;
+}
+/* Tour date numbers — Tilt Neon */
+.mq-day {
+  font-family: var(--ff-display);
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--neon-r);
+  text-shadow: 0 0 10px var(--neon-glow), 0 0 25px rgba(255,85,16,0.4);
+}
+.mq-mon {
+  font-family: var(--ff-heading);
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  color: var(--honey);
+  text-transform: uppercase;
+}
+.mq-details {
+  padding: 1.1rem 1.5rem;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.mq-venue {
+  font-family: var(--ff-heading);
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  color: var(--parchment);
+  margin-bottom: 0.2rem;
+}
+.mq-loc {
+  font-family: var(--ff-type);
+  font-size: 0.72rem;
+  color: rgba(200,160,64,0.65);
+}
+.mq-badge {
+  align-self: center; margin-right: 1.4rem;
+  font-family: var(--ff-type);
+  font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+  border: 1px dashed rgba(232,212,160,0.2);
+  color: rgba(232,212,160,0.4);
+  padding: 0.3em 0.8em; white-space: nowrap;
+}
+.mq-badge.band { border-color: rgba(204,92,32,0.45); color: var(--ember); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CONTACT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#contact {
+  background: var(--pitch);
+  text-align: center;
+  padding: 6rem 7vw 5rem;
+  position: relative; overflow: hidden;
+}
+#contact::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: 50%; transform: translateX(-50%);
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(212,146,42,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Contact heading — Sancreek (matches hero name) */
+.contact-head {
+  font-family: 'Sancreek', cursive;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  color: var(--bone);
+  margin-bottom: 0.4rem;
+}
+.contact-sub {
+  font-family: var(--ff-type);
+  font-size: 0.8rem; letter-spacing: 0.3em;
+  color: var(--ember); text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+.contact-email {
+  font-family: var(--ff-body);
+  font-style: italic;
+  font-size: clamp(1.15rem, 2.5vw, 1.7rem);
+  color: var(--honey);
+  text-decoration: none; display: inline-block;
+  border-bottom: 1px solid rgba(212,146,42,0.35);
+  padding-bottom: 0.1em; margin-bottom: 3rem;
+  transition: color 0.2s, border-color 0.2s, text-shadow 0.2s;
+}
+.contact-email:hover {
+  color: var(--neon-r); border-color: var(--neon-r);
+  text-shadow: 0 0 20px var(--neon-glow);
+}
+
+.socials { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+.socials a {
+  font-family: var(--ff-heading);
+  font-size: 0.75rem; letter-spacing: 0.22em;
+  color: rgba(232,212,160,0.45);
+  text-decoration: none; text-transform: uppercase;
+  transition: color 0.2s; position: relative;
+}
+.socials a::after {
+  content: '';
+  position: absolute; bottom: -3px; left: 0; right: 0;
+  height: 1px; background: var(--neon-r);
+  transform: scaleX(0); transition: transform 0.25s; transform-origin: left;
+}
+.socials a:hover { color: var(--parchment); }
+.socials a:hover::after { transform: scaleX(1); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FOOTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+footer {
+  background: var(--tar);
+  border-top: 1px solid rgba(46,31,13,0.6);
+  padding: 1.6rem 7vw;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 0.8rem;
+}
+footer p, footer a {
+  font-family: var(--ff-heading);
+  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(232,212,160,0.28); text-decoration: none;
+}
+footer a:hover { color: rgba(232,212,160,0.6); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SCROLL REVEAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+[data-reveal] {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+[data-reveal].in { opacity: 1; transform: none; }
+[data-reveal="late"]  { transition-delay: 0.18s; }
+[data-reveal="later"] { transition-delay: 0.34s; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESPONSIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 820px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .about-body { padding-left: 0; margin-top: 2rem; }
+  .nav-links { display: none; }
+  .marquee-row { grid-template-columns: 72px 1fr; }
+  .mq-badge { display: none; }
+}
