@@ -98,10 +98,11 @@ body::after {
   background-size: cover;
   background-position: center 30%;
   opacity: 0;
-  transition: opacity 2s ease-in-out;
-  will-change: opacity;
+  transform: scale(1.0) translateX(0);
+  transition: opacity 2s ease-in-out, transform 10s ease-in-out;
+  will-change: opacity, transform;
 }
-.slide.active { opacity: 1; }
+.slide.active { opacity: 1; transform: scale(1.07) translateX(-1%); }
 
 .slide::after {
   content: '';
@@ -126,11 +127,6 @@ body::after {
 .slide-2 { background-image: url('images/hero2.jpg'); background-position: center 40%; }
 .slide-3 { background-image: url('images/hero3.jpg'); }
 
-@keyframes kenburns {
-  from { transform: scale(1.0) translateX(0); }
-  to   { transform: scale(1.07) translateX(-1%); }
-}
-.slide.active { animation: kenburns 2s ease-in-out forwards; }
 
 /* ── Hero text ── */
 #hero-text {
