@@ -93,18 +93,14 @@ body::after {
   overflow: hidden;
 }
 
-.slide {
+.hero-bg {
   position: absolute; inset: 0;
+  background-image: url('images/hero3.jpg');
   background-size: cover;
   background-position: center 30%;
-  opacity: 0;
-  transform: scale(1.0) translateX(0);
-  transition: opacity 2s ease-in-out, transform 10s ease-in-out;
-  will-change: opacity, transform;
 }
-.slide.active { opacity: 1; transform: scale(1.07) translateX(-1%); }
 
-.slide::after {
+.hero-bg::after {
   content: '';
   position: absolute; inset: 0;
   background:
@@ -122,10 +118,6 @@ body::after {
       rgba(8,6,4,0.4) 100%
     );
 }
-
-.slide-1 { background-image: url('images/hero1.jpg'); background-position: center top; }
-.slide-2 { background-image: url('images/hero2.jpg'); background-position: center 40%; }
-.slide-3 { background-image: url('images/hero3.jpg'); }
 
 
 /* ── Hero text ── */
@@ -147,11 +139,14 @@ body::after {
   animation: fadeUp 1s 0.3s forwards;
 }
 
-/* "Daniel Miller" — Sancreek, no neon glow */
+/* "Daniel Miller" — Averia Libre Light, no neon glow */
 .hero-name {
-  font-family: 'Sancreek', cursive;
+  font-family: 'Averia Libre', cursive;
+  font-weight: 200;
   font-size: clamp(2.8rem, 7.5vw, 7.2rem);
   line-height: 1.05;
+  letter-spacing: 0.05em;
+  margin-left: -0.05em;
   color: var(--bone);
   text-shadow: 2px 4px 12px rgba(8,6,4,0.8);
   margin-bottom: 0.15rem;
@@ -159,19 +154,6 @@ body::after {
   animation: fadeUp 1s 0.5s forwards;
 }
 
-/* "& The High Life" — Neonderthaw, reduced amber glow */
-.hero-band {
-  font-family: 'Neonderthaw', cursive;
-  font-size: clamp(1.3rem, 3.2vw, 2.8rem);
-  color: var(--honey);
-  text-shadow:
-    0 0 4px  rgba(255,220,100,0.5),
-    0 0 10px rgba(212,146,42,0.35),
-    0 0 22px rgba(212,146,42,0.15);
-  margin-bottom: 2rem;
-  opacity: 0;
-  animation: fadeUp 1s 0.7s forwards;
-}
 
 .hero-actions {
   display: flex; gap: 1rem; flex-wrap: wrap;
@@ -184,24 +166,6 @@ body::after {
   to   { opacity: 1; transform: none; }
 }
 
-/* ── Slide indicator bars ── */
-#hero-dots {
-  position: absolute;
-  right: 5vw; bottom: 3rem;
-  z-index: 11;
-  display: flex; flex-direction: column; gap: 0.5rem;
-}
-.hdot {
-  width: 2px; height: 22px;
-  background: rgba(232,212,160,0.25);
-  cursor: pointer;
-  transition: background 0.3s, height 0.3s;
-}
-.hdot.active {
-  background: var(--neon-r);
-  height: 36px;
-  box-shadow: 0 0 8px var(--neon-glow);
-}
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    BUTTONS
@@ -301,9 +265,10 @@ body::after {
   opacity: 0.5;
 }
 
-/* Section h2 — Sancreek (matches hero name) */
+/* Section h2 — Averia Libre Light (matches hero name) */
 h2.sh {
-  font-family: 'Sancreek', cursive;
+  font-family: 'Averia Libre', cursive;
+  font-weight: 300;
   font-size: clamp(2rem, 4vw, 3.5rem);
   color: var(--bone);
   line-height: 1.15;
@@ -379,6 +344,46 @@ h2.sh {
 .about-body em { color: var(--honey); font-style: italic; }
 .about-body strong { color: var(--straw); font-weight: 700; }
 
+/* ── Band name popup ── */
+.band-pop {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.band-pop > em {
+  border-bottom: 1px dotted var(--honey);
+}
+.band-pop-card {
+  position: absolute;
+  bottom: calc(100% + 0.6rem);
+  left: 0;
+  width: 240px;
+  background: var(--pitch);
+  border: 1px solid var(--saddle);
+  border-radius: 3px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 50;
+}
+.band-pop:hover .band-pop-card,
+.band-pop:focus-within .band-pop-card {
+  opacity: 1;
+  pointer-events: auto;
+}
+.band-pop-card img {
+  width: 100%;
+  display: block;
+}
+.band-pop-blurb {
+  display: block;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--parchment);
+  padding: 0.65rem 0.75rem;
+}
+
 .opener-quote {
   font-family: var(--ff-body);
   font-style: italic;
@@ -442,7 +447,9 @@ h2.sh {
 }
 /* Record titles — Tilt Neon */
 .record-title {
-  font-family: var(--ff-display);
+  font-family: 'Averia Libre', cursive;
+  font-weight: 200;
+  letter-spacing: 0.05em;
   font-size: 1.15rem;
   color: var(--bone);
   margin-bottom: 0.8rem;
@@ -561,9 +568,10 @@ h2.sh {
   pointer-events: none;
 }
 
-/* Contact heading — Sancreek (matches hero name) */
+/* Contact heading — Averia Libre Light (matches hero name) */
 .contact-head {
-  font-family: 'Sancreek', cursive;
+  font-family: 'Averia Libre', cursive;
+  font-weight: 300;
   font-size: clamp(2rem, 4vw, 3.2rem);
   color: var(--bone);
   margin-bottom: 0.4rem;
