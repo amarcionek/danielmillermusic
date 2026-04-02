@@ -1,4 +1,15 @@
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CUSTOM FONTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@font-face {
+  font-family: 'Cutterlakes Press';
+  src: url('CutterlakesPress-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    DESIGN TOKENS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 :root {
@@ -139,15 +150,16 @@ body::after {
   animation: fadeUp 1s 0.3s forwards;
 }
 
-/* "Daniel Miller" — Averia Libre Light, no neon glow */
+/* "Daniel Miller" — Cutterlakes Press, no neon glow */
 .hero-name {
-  font-family: 'Averia Libre', cursive;
-  font-weight: 200;
+  font-family: 'Cutterlakes Press', cursive;
+  font-weight: normal;
   font-size: clamp(2.8rem, 7.5vw, 7.2rem);
   line-height: 1.05;
   letter-spacing: 0.05em;
   margin-left: -0.05em;
   color: var(--bone);
+  /* -webkit-text-stroke: 1px var(--tar); */
   text-shadow: 2px 4px 12px rgba(8,6,4,0.8);
   margin-bottom: 0.15rem;
   opacity: 0;
