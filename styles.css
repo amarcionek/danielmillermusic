@@ -357,7 +357,8 @@ h2.sh {
 .band-pop-card {
   position: absolute;
   bottom: calc(100% + 0.6rem);
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 480px;
   background: var(--pitch);
   border: 1px solid var(--saddle);
